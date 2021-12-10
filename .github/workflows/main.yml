@@ -1,0 +1,17 @@
+name: ioe-data
+
+on: [push]
+
+jobs:
+  build-and-push:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker login
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io --username Crian69 --password-stdin
+      - name: Docker build
+        run: docker build -t ghcr.io/crian69/ioe-data/ioe-data:latest .
+      - name: Docker push tag latest
+        run: docker push ghcr.io/crian69/ioe-data/ioe-data:latest
+        if: github.ref == 'refs/heads/master'
